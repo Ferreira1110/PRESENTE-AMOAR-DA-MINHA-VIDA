@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Começo da Nossa História</title>
+
+<!-- Fontes -->
+<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600&family=Poppins&display=swap" rel="stylesheet">
+
+<!-- CSS -->
+<link rel="stylesheet" href="css/style.css">
+<style>
+/* ===== RESET ===== */
+*, *::after, *::before { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior: smooth; }
+body { font-family: 'Poppins', sans-serif; background-color: #ffffff; color:#4a0033; overflow-x:hidden; }
+
+/* ===== CAPA ===== */
+.hero { min-height:30vh; width:100%; background: url("imagens/momento/capa.jpeg") center/cover no-repeat; display:flex; flex-direction:column; justify-content:flex-end; align-items:center; position:relative; }
+.hero::before { content:""; position:absolute; inset:0; background:rgba(87,11,80,0.4); }
+.hero h1 { position:relative; margin-bottom:40px; font-family:'Dancing Script', cursive; font-size:2.6rem; color:#fff; text-align:center; text-shadow:2px 2px 6px #300018; }
+.scroll { position:relative; margin-bottom:20px; font-size:0.9rem; color:#ffd6ec; }
+
+/* ===== HISTÓRIA ===== */
+.story { padding:20px; background:linear-gradient(180deg,#fa96c5,#fffdfe); text-align:center; position:relative; }
+.story h2 { color:#79083d; margin-bottom:20px; }
+.story p { line-height:1.7; font-size:1.05rem; }
+
+/* ===== TRANSFORMAÇÃO ===== */
+.transformacao { padding:40px 20px; background:linear-gradient(180deg,#fffdfe,#fde2f1); text-align:center; }
+.transformacao h2 { font-family:'Dancing Script', cursive; font-size:2rem; color:#7a003d; margin-bottom:20px; }
+.comparacao { display:flex; gap:15px; justify-content:center; flex-wrap: wrap; }
+.coluna { width:48%; background:#fff; border-radius:20px; padding:15px; box-shadow:0 10px 25px rgba(0,0,0,0.08); }
+.coluna h3 { font-family:'Dancing Script', cursive; color:#7a003d; margin-bottom:10px; }
+.coluna ul { list-style:none; }
+.coluna li { font-size:0.95rem; margin:6px 0; }
+
+/* ===== GALERIA ===== */
+.gallery { padding:40px 0; text-align:center; }
+.momento { margin-bottom:20px; color:#802447; }
+.slider { position:relative; width:85vw; max-width:320px; aspect-ratio:1/1; margin:0 auto; overflow:hidden; border-radius:35px; }
+.slides { display:flex; height:100%; transition: transform 0.6s ease-in-out; }
+.slides img { width:100%; height:100%; object-fit:cover; flex-shrink:0; }
+.btn { position:absolute; top:50%; transform:translateY(-50%); background:rgba(99,46,74,0.8); border:none; color:white; font-size:1.8rem; padding:10px 14px; border-radius:50%; cursor:pointer; z-index:10; }
+.prev { left:10px; }
+.next { right:10px; }
+
+/* ===== SENTIMENTOS ===== */
+.sentimentos { padding:40px 20px; background:linear-gradient(180deg,#ffe4f1,#fff0f5); text-align:center; }
+.sentimentos h2 { font-family:'Dancing Script', cursive; font-size:2rem; color:#7a003d; margin-bottom:20px; }
+.cartas { display:flex; flex-wrap:wrap; justify-content:center; gap:20px; }
+.carta { background:#fff; border-radius:20px; padding:20px; width:220px; min-height:140px; box-shadow:0 10px 25px rgba(0,0,0,0.08); transition:transform 0.3s ease, box-shadow 0.3s ease; text-align:center; }
+.carta span { font-size:2rem; display:block; margin-bottom:10px; }
+.carta p { font-size:1rem; line-height:1.5; color:#4a0033; }
+.carta:hover { transform:translateY(-10px); box-shadow:0 15px 35px rgba(0,0,0,0.15); }
+
+/* ===== FINAL ===== */
+.final { min-height:100vh; background:radial-gradient(circle,#3b001f,#12000a); display:flex; align-items:center; justify-content:center; padding:30px; }
+.final-text { color:#fff; font-family:'Dancing Script', cursive; font-size:1.9rem; line-height:1.8; text-align:center; opacity:0; transform:translateY(30px); transition:all 2s ease; }
+
+/* ===== LOADER ===== */
+#loader { position:fixed; inset:0; background:radial-gradient(circle,#14000b,#000); display:flex; flex-direction:column; align-items:center; justify-content:center; z-index:9999; transition:opacity 1.5s ease, transform 1.5s ease; }
+#loader.hidden { opacity:0; pointer-events:none; transform:scale(1.2); }
+#heart { width:100vw; height:100vh; position:absolute; inset:0; }
+#startBtn { position:relative; z-index:2; margin-top:20px; padding:14px 28px; border-radius:30px; border:none; background:#4b001f; color:white; font-size:1rem; cursor:pointer; box-shadow:0 0 25px rgba(255,95,162,0.6); animation:pulseBtn 1.5s infinite; }
+@keyframes pulseBtn { 0%{transform:scale(1);} 50%{transform:scale(1.08);} 100%{transform:scale(1);} }
+
+/* ===== BOTÃO LUA ===== */
+#abrirLua { display:block; margin:30px auto; padding:10px 20px; font-size:16px; border:none; border-radius:25px; background:linear-gradient(45deg,#ff4f81,#ff0080,#9b00ff); color:white; cursor:pointer; box-shadow:0 4px 15px rgba(0,0,0,0.3); transition:transform 0.2s,box-shadow 0.2s; }
+#abrirLua:hover { transform:scale(1.05); box-shadow:0 6px 20px rgba(0,0,0,0.5); }
+#luaOverlay { display:none; position:fixed; top:0; left:0; width:100%; height:100%; z-index:1000; flex-direction:column; justify-content:center; align-items:center; background: rgba(0,0,0,0.9); }
+#luaOverlay iframe { width:90%; height:80%; border:none; border-radius:15px; }
+#fecharLua { margin-top:20px; padding:0.8em 1.5em; font-size:1rem; font-weight:bold; color:#ffeaa7; background:rgba(255,255,255,0.05); border:2px solid #ffeaa7; border-radius:12px; cursor:pointer; transition:all 0.3s ease; }
+#fecharLua:hover { background:rgba(255,255,255,0.1); transform:scale(1.05); box-shadow:0 5px 12px rgba(0,0,0,0.5); }
+
+/* ===== RESPONSIVO ===== */
+@media (max-width:768px){
+    .hero h1{font-size:2.1rem;padding:0 15px;}
+    .comparacao{flex-direction:column;gap:10px;}
+    .coluna{width:80%;padding:12px;}
+    .transformacao h2{font-size:1.8rem;}
+    .final-text{font-size:1.6rem;}
+    .cartas{flex-direction:column;gap:15px;}
+    .carta{width:90%;}
+}
+</style>
+</head>
+<body>
+
+<!-- 🎶 Música -->
+<audio id="music" loop>
+    <source src="imagens/musica/musica.mp3" type="audio/mpeg">
+</audio>
+
+<!-- LOADER COM CORAÇÃO -->
+<div id="loader">
+    <canvas id="heart"></canvas>
+    <button id="startBtn">Toque aqui 🤍</button>
+</div>
+
+<!-- CAPA -->
+<section class="hero">
+    <h1>Começo da Nossa História</h1>
+    <span class="scroll">Deslize ↓</span>
+</section>
+
+<!-- HISTÓRIA -->
+<section class="story">
+    <img src="imagens/momento/rapunzel.png" alt="Rapunzel" class="rapunzel">
+    <img src="imagens/momento/moana.png" alt="Moana" class="moana">
+    <h2>Nosso Início ✨</h2>
+    <p>O dia em que eu conheci a minha garota foi a coisa mais espontânea do mundo, aconteceu totalmente do nada. Até hoje eu não sei explicar direito o que me deu. Acredito que foi aqueles lindos olhos que me fez sentir que queria ela por perto, e hoje estamos juntos e sou completamente doido por ela.
+
+Eu lembro de cada dia que a gente passava junto naquela escada; me trazia uma paz tão grande que eu nem sei descrever, e cada toque dela fazia meu coração saltitar.
+
+Por causa de umas paradas do passado, eu tinha muito medo de me envolver de novo, mas com ela eu tive a certeza de que seria diferente. Ela despertou uma versão minha que ninguém nunca tinha visto antes.
+
+Hoje a gente está super bem, felizes e sem brigas — e eu espero de coração que continue assim. Eu botei na minha cabeça que vou sempre me esforçar para ser o melhor homem para ela. <strong>EU TE AMO MINHA GAROTA!! 🤍</strong></p>
+</section>
+
+<!-- TRANSFORMAÇÃO -->
+<section class="transformacao">
+    <h2>Quando Você Chegou 🤍</h2>
+    <div class="comparacao">
+        <div class="coluna antes-col">
+            <h3>Antes</h3>
+            <ul>
+                <li>O mundo era silencioso</li>
+                <li>Os dias eram comuns</li>
+                <li>Eu seguia sem rumo</li>
+                <li>O sorriso vinha raro</li>
+            </ul>
+        </div>
+        <div class="coluna depois-col">
+            <h3>Depois de você</h3>
+            <ul>
+                <li>O mundo ganhou som</li>
+                <li>Cada dia virou especial</li>
+                <li>Encontrei um lar</li>
+                <li>Seu sorriso virou meu motivo</li>
+            </ul>
+        </div>
+    </div>
+</section>
+
+<!-- GALERIA -->
+<section class="gallery">
+    <h2 class="momento">Momentos Especiais 💕</h2>
+    <div class="slider">
+        <button class="btn prev">‹</button>
+        <div class="slides">
+            <img src="imagens/momento/1.jpeg" alt="Momento 1">
+            <img src="imagens/momento/2.jpeg" alt="Momento 2">
+            <img src="imagens/momento/3.jpeg" alt="Momento 3">
+        </div>
+        <button class="btn next">›</button>
+    </div>
+</section>
+
+<!-- SENTIMENTOS -->
+<section class="sentimentos">
+    <h2>O que eu vejo em você 🤍</h2>
+    <div class="cartas">
+        <div class="carta"><span>🌸</span><p>Você me traz paz mesmo nos dias em que tudo parece pesado.</p></div>
+        <div class="carta"><span>💖</span><p>Você me faz querer ser melhor sem nunca me pressionar.</p></div>
+        <div class="carta"><span>✨</span><p>Com você, até o silêncio vira conforto.</p></div>
+        <div class="carta"><span>🏡</span><p>Você não é só amor, é lar.</p></div>
+    </div>
+</section>
+
+<!-- BOTÃO LUA -->
+<button id="abrirLua">clique aqui🌙</button>
+<div id="luaOverlay">
+    <iframe src="lua/lua.html"></iframe>
+    <button id="fecharLua">Voltar</button>
+</div>
+
+<!-- FINAL -->
+<section class="final">
+    <p class="final-text">Se você chegou até aqui…
+
+é porque cada detalhe desse site
+carrega tudo aquilo que eu nunca consegui explicar.
+
+Você não mudou só meus dias.
+Você mudou quem eu sou.
+
+E se um dia eu esquecer de dizer…
+é você, sempre foi você. 🤍<br><strong>é você, sempre foi você.</strong> 🤍</p>
+</section>
+
+<!-- JS -->
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+
+    // CARROSSEL
+    const slides = document.querySelector(".slides");
+    const imgs = document.querySelectorAll(".slides img");
+    const prev = document.querySelector(".prev");
+    const next = document.querySelector(".next");
+    let index = 0;
+    function updateSlide(){ slides.style.transform = `translateX(-${index*100}%)`; }
+    next?.addEventListener("click",()=>{ index=(index+1)%imgs.length; updateSlide(); });
+    prev?.addEventListener("click",()=>{ index=(index-1+imgs.length)%imgs.length; updateSlide(); });
+
+    // MÚSICA
+    const music = document.getElementById("music");
+    function iniciarMusica(){ if(!music) return; music.volume=0; music.play().catch(()=>{}); let v=0; const fade=setInterval(()=>{ if(v<0.25){ v+=0.01; music.volume=v; } else clearInterval(fade); },120); }
+
+    // LOADER CORAÇÃO
+    const canvas=document.getElementById("heart");
+    const ctx=canvas.getContext("2d");
+    const loader=document.getElementById("loader");
+    const startBtn=document.getElementById("startBtn");
+    let w=innerWidth,h=innerHeight,explode=false;
+    function resizeHeart(){ w=canvas.width=innerWidth; h=canvas.height=innerHeight; }
+    window.addEventListener("resize",resizeHeart); resizeHeart();
+    const heartPos=t=>[Math.pow(Math.sin(t),3),-(15*Math.cos(t)-5*Math.cos(2*t)-2*Math.cos(3*t)-Math.cos(4*t))];
+    let points=[];
+    for(let i=0;i<Math.PI*2;i+=0.08){ const [x,y]=heartPos(i); points.push({x:w/2,y:h/2,tx:x*220+w/2,ty:y*14+h/2,vx:0,vy:0,size:2}); }
+    function loopHeart(){ ctx.fillStyle="rgba(0,0,0,0.2)"; ctx.fillRect(0,0,w,h); points.forEach(p=>{ if(!explode){ p.vx+=(p.tx-p.x)*0.02; p.vy+=(p.ty-p.y)*0.02; } else { p.vx+=(Math.random()-0.5)*8; p.vy+=(Math.random()-0.5)*8; } p.x+=p.vx; p.y+=p.vy; p.vx*=0.88; p.vy*=0.88; ctx.fillStyle="rgba(255,90,130,0.8)"; ctx.beginPath(); ctx.arc(p.x,p.y,p.size,0,Math.PI*2); ctx.fill(); }); requestAnimationFrame(loopHeart); }
+    loopHeart();
+    startBtn.addEventListener("click",()=>{
+        explode=true; iniciarMusica();
+        setTimeout(()=>{ loader.classList.add("hidden"); },1400);
+    });
+
+    // CARTAS ANIMADAS
+    const cartas=document.querySelectorAll(".carta");
+    if(cartas.length){
+        const obs=new IntersectionObserver(entries=>{ entries.forEach(e=>{ if(e.isIntersecting){ e.target.style.opacity=1; e.target.style.transform="translateY(0)"; } }); },{threshold:0.2});
+        cartas.forEach(c=>{ c.style.opacity=0; c.style.transform="translateY(20px)"; c.style.transition="0.8s"; obs.observe(c); });
+    }
+
+    // FINAL
+    const finalText=document.querySelector(".final-text");
+    if(finalText){
+        const obsFinal=new IntersectionObserver(entries=>{ if(entries[0].isIntersecting){ finalText.style.opacity=1; finalText.style.transform="translateY(0)"; } },{threshold:0.6});
+        obsFinal.observe(finalText);
+    }
+
+    // OVERLAY LUA
+    const overlay = document.getElementById('luaOverlay');
+    const abrirBtn = document.getElementById('abrirLua');
+    const fecharBtn = document.getElementById('fecharLua');
+    abrirBtn.onclick = ()=> overlay.style.display='flex';
+    fecharBtn.onclick = ()=> overlay.style.display='none';
+
+});
+</script>
+</body>
+</html>
